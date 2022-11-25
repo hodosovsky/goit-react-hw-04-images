@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import axios from 'axios';
+
 import PropTypes from 'prop-types';
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 import { ImageGalleryStyled } from './ImageGallery.styled';
@@ -19,8 +19,6 @@ export default class ImageGallery extends Component {
 
   async componentDidUpdate(prevProps, prevState) {
     const name = this.props.categoryName;
-
-    const { length } = this.state;
 
     if (prevProps.categoryName !== this.props.categoryName) {
       this.setState({ loading: true });
@@ -44,7 +42,7 @@ export default class ImageGallery extends Component {
 
   handleLoadmoreClick = async () => {
     const name = this.props.categoryName;
-    const { page, gallery, total, loaded } = this.state;
+    const { page, total, loaded } = this.state;
     this.setState({ loading: true });
     this.setState(prevState => ({ page: prevState.page + 1 }));
     this.setState(prevState => ({ loaded: prevState.loaded + 12 }));
