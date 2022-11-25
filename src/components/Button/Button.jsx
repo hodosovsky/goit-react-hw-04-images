@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { StyledButton } from './Button.styled';
+import PropTypes from 'prop-types';
 
 class Button extends Component {
   render() {
@@ -12,5 +13,7 @@ class Button extends Component {
     );
   }
 }
-
+Button.propTypes = {
+  onClick: PropTypes.func.isRequired,
+};
 export { Button };

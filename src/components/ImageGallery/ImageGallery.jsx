@@ -97,5 +97,5 @@ export default class ImageGallery extends Component {
 }
 
 ImageGallery.propTypes = {
-  gallery: PropTypes.object,
+  categoryName: PropTypes.string.isRequired,
 };
