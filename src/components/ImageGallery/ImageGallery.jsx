@@ -14,22 +14,22 @@ export default class ImageGallery extends Component {
     loading: false,
     error: null,
     total: '',
-
-    loaded: 12,
+    loaded: 0,
   };
+
   async componentDidUpdate(prevProps, prevState) {
     const name = this.props.categoryName;
-    const { page, length } = this.state;
+
+    const { length } = this.state;
 
     if (prevProps.categoryName !== this.props.categoryName) {
       this.setState({ loading: true });
       this.setState({ page: 1 });
-      try {
-        const gallery = await getGalleryService(name, page);
+      this.setState({ loaded: 12 });
 
-        //   axios.get(
-        //   `https://pixabay.com/api/?q=${name}&key=30757055-8f8e35a6024963473ffe3e1a3&image_type=photo&orientation=horizontal&page=${page}&per_page=12`
-        // );
+      try {
+        const gallery = await getGalleryService(name);
+
         this.setState({ gallery: gallery.data.hits });
         this.setState({ total: gallery.data.totalHits });
         this.setState(prevState => ({ page: prevState.page + 1 }));
