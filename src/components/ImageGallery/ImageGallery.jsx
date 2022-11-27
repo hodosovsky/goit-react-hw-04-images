@@ -1,4 +1,4 @@
-import { Component, useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 
 import PropTypes from 'prop-types';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
@@ -27,17 +27,30 @@ const ImageGallery = ({ categoryName }) => {
       setGallery([]);
       setLoaded(12);
     }
-    const fetchGallery = async () => {
-      const galleryFromFetch = await getGalleryService(categoryName, page);
-      setSerchQuerry(categoryName);
-      setTotal(galleryFromFetch.data.totalHits);
-      setLoading(false);
-      setGallery(prevState => {
-        return [...prevState, ...galleryFromFetch.data.hits];
-      });
-    };
 
-    fetchGallery();
+    getGalleryService(categoryName, page)
+      .then(data => {
+        const galleryFromFetch = data;
+        setGallery(prevState => [...prevState, ...galleryFromFetch.data.hits]);
+        setSerchQuerry(categoryName);
+        setTotal(galleryFromFetch.data.totalHits);
+        setLoading(false);
+      })
+      .catch(error => {
+        setError(error);
+      });
+
+    // const fetchGallery = async () => {
+    //   const galleryFromFetch = await getGalleryService(categoryName, page);
+    //   setGallery(prevState => {
+    //     return [...prevState, ...galleryFromFetch.data.hits];
+    //   });
+    //   setSerchQuerry(categoryName);
+    //   setTotal(galleryFromFetch.data.totalHits);
+    //   setLoading(false);
+    // };
+
+    // fetchGallery();
   }, [categoryName, page]);
 
   const handleLoadmoreClick = () => {
