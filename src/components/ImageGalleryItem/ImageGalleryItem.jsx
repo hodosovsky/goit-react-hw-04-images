@@ -5,22 +5,31 @@ import { Modal } from 'components/Modal/Modal';
 
 export default class ImageGalleryItem extends Component {
   state = {
-    isOpen: false,
+    isModalOpen: false,
   };
-  toggle = () => {
-    this.setState(prevState => ({ isOpen: !prevState.isOpen }));
+
+  // handleModalOpen = () => {
+  //   this.setState({ isModalOpen: !this.state.isModalOpen });
+  // };
+
+  // handleModalClose = () => {
+  //   this.setState({ isModalOpen: false });
+  // };
+
+  handleModalToggle = () => {
+    this.setState(prevState => ({ isModalOpen: !prevState.isModalOpen }));
   };
   render() {
     const { alt, img, largeImageURL } = this.props;
-    const { isOpen } = this.state;
+    const { isModalOpen } = this.state;
     return (
-      <ImageGalleryItemStyled className="gallery-item" onClick={this.toggle}>
-        <img src={img} alt={alt} />
-        {isOpen && (
+      <ImageGalleryItemStyled className="gallery-item">
+        <img src={img} alt={alt} onClick={this.handleModalToggle} />
+        {isModalOpen && (
           <Modal
             largeImageURL={largeImageURL}
             alt={alt}
-            onModalClose={this.toggle}
+            onModalClose={this.handleModalToggle}
           />
         )}
       </ImageGalleryItemStyled>
@@ -30,5 +39,6 @@ export default class ImageGalleryItem extends Component {
 
 ImageGalleryItem.propTypes = {
   img: PropTypes.string.isRequired,
+  largeImageURL: PropTypes.string.isRequired,
   alt: PropTypes.string.isRequired,
 };

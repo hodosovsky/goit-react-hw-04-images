@@ -78,7 +78,8 @@ export default class ImageGallery extends Component {
             ))}
         </ImageGalleryStyled>
 
-        {loaded < total && <Button onClick={this.handleLoadmoreClick} />}
+        {loading ||
+          (loaded < total && <Button onClick={this.handleLoadmoreClick} />)}
 
         {loading && (
           <RotatingLines
