@@ -14,25 +14,35 @@ const ImageGallery = ({ categoryName }) => {
   const [error, setError] = useState(() => null);
   const [total, setTotal] = useState(() => '');
   const [loaded, setLoaded] = useState(() => 0);
-  const [searchQuerry, setSerchQuerry] = useState(() => '');
+  // const [searchQuerry, setSearchQuerry] = useState(() => '');
+
+  // useEffect(() => {
+  //   if (searchQuerry === '') {
+  //     return;
+  //   }
+  //   // setSearchQuerry(prevState => console.log(prevState === categoryName));
+  //   console.log(searchQuerry === categoryName);
+  //   if (searchQuerry === categoryName) {
+  //     console.log('searchQuerry', searchQuerry);
+  //     setPage(1);
+  //     setGallery([]);
+  //     setLoaded(12);
+  //   }
+  // }, [searchQuerry]);
 
   useEffect(() => {
     if (!categoryName) {
       return;
     }
+    setPage(1);
+    setLoaded(12);
     setLoading(true);
-
-    if (searchQuerry !== categoryName) {
-      setPage(1);
-      setGallery([]);
-      setLoaded(12);
-    }
-
-    getGalleryService(categoryName, page)
+    // setSearchQuerry(categoryName);
+    getGalleryService(categoryName)
       .then(data => {
         const galleryFromFetch = data;
-        setGallery(prevState => [...prevState, ...galleryFromFetch.data.hits]);
-        setSerchQuerry(categoryName);
+        setGallery(galleryFromFetch.data.hits);
+        setPage(prevState => prevState + 1);
         setTotal(galleryFromFetch.data.totalHits);
         setLoading(false);
       })
@@ -51,11 +61,20 @@ const ImageGallery = ({ categoryName }) => {
     // };
 
     // fetchGallery();
-  }, [categoryName, page]);
+  }, [categoryName]);
 
   const handleLoadmoreClick = () => {
-    setPage(prevState => prevState + 1);
     setLoading(true);
+    getGalleryService(categoryName, page)
+      .then(data => {
+        const galleryFromFetch = data;
+        setGallery(prevState => [...prevState, ...galleryFromFetch.data.hits]);
+        setLoading(false);
+      })
+      .catch(error => {
+        setError(error);
+      });
+    setPage(prevState => prevState + 1);
     setLoaded(prevState => prevState + 12);
   };
 
