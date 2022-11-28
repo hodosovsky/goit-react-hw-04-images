@@ -22,7 +22,6 @@ const ImageGallery = ({ categoryName, page, loaded, setPage, setLoaded }) => {
     if (page === 1) {
       setGallery([]);
     }
-
     setLoading(true);
     // setSearchQuerry(categoryName);
     getGalleryService(categoryName, page)

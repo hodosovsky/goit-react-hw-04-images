@@ -15,6 +15,7 @@ const Searchbar = ({ onSubmit }) => {
       Notify.failure('Enter search request...');
       return;
     }
+
     onSubmit(category);
 
     setCategory('');

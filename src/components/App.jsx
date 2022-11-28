@@ -9,6 +9,9 @@ const App = () => {
   const [loaded, setLoaded] = useState(0);
 
   const handleFormSubmit = value => {
+    if (categoryName === value) {
+      return;
+    }
     setCategoryName(value);
     setPage(1);
     setLoaded(12);
