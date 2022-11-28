@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { SearchbarStyled, Form } from './Searchbar.styled';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import PropTypes from 'prop-types';
 
 const Searchbar = ({ onSubmit }) => {
   const [category, setCategory] = useState('');
@@ -45,6 +46,10 @@ const Searchbar = ({ onSubmit }) => {
   );
 };
 export default Searchbar;
+
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
 
 // export default class oldSearchbar extends Component {
 //   state = {

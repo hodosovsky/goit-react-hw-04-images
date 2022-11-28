@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
+
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
 
@@ -48,7 +48,3 @@ const App = () => {
 //   }
 // }
 export default App;
-
-App.propTypes = {
-  categoryName: PropTypes.string,
-};

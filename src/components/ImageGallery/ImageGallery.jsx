@@ -167,4 +167,8 @@ export default ImageGallery;
 
 ImageGallery.propTypes = {
   categoryName: PropTypes.string.isRequired,
+  page: PropTypes.number.isRequired,
+  loaded: PropTypes.number.isRequired,
+  setPage: PropTypes.func.isRequired,
+  setLoaded: PropTypes.func.isRequired,
 };
