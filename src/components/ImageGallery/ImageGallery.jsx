@@ -7,73 +7,40 @@ import { RotatingLines } from 'react-loader-spinner';
 import { Button } from 'components/Button/Button';
 import { getGalleryService } from 'services/gallery-service';
 
-const ImageGallery = ({ categoryName }) => {
+const ImageGallery = ({ categoryName, page, loaded, setPage, setLoaded }) => {
   const [gallery, setGallery] = useState(() => []);
-  const [page, setPage] = useState(() => 1);
+  // const [page, setPage] = useState(() => 1);
   const [loading, setLoading] = useState(() => false);
   const [error, setError] = useState(() => null);
   const [total, setTotal] = useState(() => '');
-  const [loaded, setLoaded] = useState(() => 0);
-  // const [searchQuerry, setSearchQuerry] = useState(() => '');
-
-  // useEffect(() => {
-  //   if (searchQuerry === '') {
-  //     return;
-  //   }
-  //   // setSearchQuerry(prevState => console.log(prevState === categoryName));
-  //   console.log(searchQuerry === categoryName);
-  //   if (searchQuerry === categoryName) {
-  //     console.log('searchQuerry', searchQuerry);
-  //     setPage(1);
-  //     setGallery([]);
-  //     setLoaded(12);
-  //   }
-  // }, [searchQuerry]);
 
   useEffect(() => {
     if (!categoryName) {
       return;
     }
-    setPage(1);
-    setLoaded(12);
+
+    if (page === 1) {
+      setGallery([]);
+    }
+
     setLoading(true);
     // setSearchQuerry(categoryName);
-    getGalleryService(categoryName)
+    getGalleryService(categoryName, page)
       .then(data => {
         const galleryFromFetch = data;
-        setGallery(galleryFromFetch.data.hits);
-        setPage(prevState => prevState + 1);
+        setGallery(prevState => {
+          return [...prevState, ...galleryFromFetch.data.hits];
+        });
+
         setTotal(galleryFromFetch.data.totalHits);
         setLoading(false);
       })
       .catch(error => {
         setError(error);
       });
-
-    // const fetchGallery = async () => {
-    //   const galleryFromFetch = await getGalleryService(categoryName, page);
-    //   setGallery(prevState => {
-    //     return [...prevState, ...galleryFromFetch.data.hits];
-    //   });
-    //   setSerchQuerry(categoryName);
-    //   setTotal(galleryFromFetch.data.totalHits);
-    //   setLoading(false);
-    // };
-
-    // fetchGallery();
-  }, [categoryName]);
+  }, [categoryName, page]);
 
   const handleLoadmoreClick = () => {
-    setLoading(true);
-    getGalleryService(categoryName, page)
-      .then(data => {
-        const galleryFromFetch = data;
-        setGallery(prevState => [...prevState, ...galleryFromFetch.data.hits]);
-        setLoading(false);
-      })
-      .catch(error => {
-        setError(error);
-      });
     setPage(prevState => prevState + 1);
     setLoaded(prevState => prevState + 12);
   };
